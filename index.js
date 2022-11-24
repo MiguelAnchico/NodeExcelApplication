@@ -104,11 +104,11 @@ function createExcel() {
         })
     }
 
-    json = formatterDataJson(data);
+    json = formatterDataJson(data, 'maestro');
     createJsonFile( JSON.stringify(json), 'newObjectWithAll')
 }
 
-function formatterDataJson(Json){
+function formatterDataJson(Json, type){
     let formatterJson = [];
     Json.map((row) => {
         let LN = row.LINEA;
@@ -118,6 +118,7 @@ function formatterDataJson(Json){
         let TL = row.TALLA;
         let CV = row['COLOR VISOR'];
 
+        if(type != 'maestro') {
         switch(LN) {
             case 'ACCES':
                 LN = '03';
@@ -548,42 +549,68 @@ function formatterDataJson(Json){
         }
 
         if(TL === "N/A") TL = 'NA'
+            formatterJson.push(
+                {
+                    'REFERENCIA PPAL': row.Item,
+                    'CODIGO PLAN': 'LN',
+                    'CODIGO MAYOR': LN
+                },
+                {
+                    'REFERENCIA PPAL': row.Item,
+                    'CODIGO PLAN': 'MC',
+                    'CODIGO MAYOR': MC
+                },
+                {
+                    'REFERENCIA PPAL': row.Item,
+                    'CODIGO PLAN': 'RF',
+                    'CODIGO MAYOR': RF
+                },
+                {
+                    'REFERENCIA PPAL': row.Item,
+                    'CODIGO PLAN': 'SL',
+                    'CODIGO MAYOR': SL
+                },
+                {
+                    'REFERENCIA PPAL': row.Item,
+                    'CODIGO PLAN': 'TL',
+                    'CODIGO MAYOR': TL
+                },
+                {
+                    'REFERENCIA PPAL': row.Item,
+                    'CODIGO PLAN': 'CV',
+                    'CODIGO MAYOR': CV
+                }
+            );
+        } else {
 
-        formatterJson.push(
-            {
-                'REFERENCIA PPAL': row.Item,
-                'CODIGO PLAN': 'LN',
-                'CODIGO MAYOR': LN
-            },
-            {
-                'REFERENCIA PPAL': row.Item,
-                'CODIGO PLAN': 'MC',
-                'CODIGO MAYOR': MC
-            },
-            {
-                'REFERENCIA PPAL': row.Item,
-                'CODIGO PLAN': 'RF',
-                'CODIGO MAYOR': RF
-            },
-            {
-                'REFERENCIA PPAL': row.Item,
-                'CODIGO PLAN': 'SL',
-                'CODIGO MAYOR': SL
-            },
-            {
-                'REFERENCIA PPAL': row.Item,
-                'CODIGO PLAN': 'TL',
-                'CODIGO MAYOR': TL
-            },
-            {
-                'REFERENCIA PPAL': row.Item,
-                'CODIGO PLAN': 'CV',
-                'CODIGO MAYOR': CV
-            }
-        );
+            let tipoDeProducto = row['TIPO DE PRODUCTO']+ '';
+            let marcas = (row.MARCAS != 'N/A' || row.MARCAS != undefined) ? row.MARCAS + '' : '';
+            let graficos = (row.GRAFICOS != 'N/A' || row.GRAFICOS != undefined) ? row.GRAFICOS + '' : '';
+            let referencia = (row.REFERENCIA != 'N/A' || row.REFERENCIA != undefined) ? row.REFERENCIA + '' : '';
+            let colorPrimario = (new String(row['COLOR PRIMARIO'])  != 'N/A' || row['COLOR PRIMARIO'] != undefined) ? row['COLOR PRIMARIO'] + '' : '';
+            let colorSecundario = (new String(row['COLOR SECUNDARIO'])  != 'N/A' || row['COLOR SECUNDARIO'] != undefined) ? row['COLOR SECUNDARIO'] + '' : '';
+            let talla = (row.TALLA != 'N/A' || row.TALLA != undefined) ? row.TALLA + '' : '';
 
+            const allDesc = row.LINEA + ' ' + tipoDeProducto.trim() + ' ' + marcas.trim() + ' ' + referencia.trim() + ' ' + graficos.trim() + ' ' + colorPrimario.trim() + ' ' + colorSecundario.trim() + ' ' + talla.trim();
+            const descItem = '';
+            const descCorta = '';
+
+            formatterJson.push(
+                {
+                    'CodItem': '',
+                    'RefPrincipal': row.Item,
+                    'DescItem': descItem,
+                    'DescCorta': descCorta,
+                    'GrupoImpositivo': '',
+                    'TipoInventario': '',
+                    'UndInventario': '',
+                    'UndOrden': '',
+                    'Notas': allDesc,
+                }
+            );
+        }
     });
-
+    
     return formatterJson;
 
 }
