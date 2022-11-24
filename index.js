@@ -81,20 +81,16 @@ function reformatterExcel() {
     
     console.log(wrongRows);
     const json = JSON.stringify(finalArray)
-    
-    fs.writeFile("C:/Users/Cascos Power/Desktop/newClient", json, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-        console.log("The file was saved!");
-    });
+
+    createJsonFile(json, 'newFormat')
 }
 
 function createExcel() {
-    const file = reader.readFile('C:/Users/Cascos Power/Desktop/Excel Ultimos Productos.xlsx')
+    const file = reader.readFile('C:/Users/POWER_BIKER_DELL/Downloads/Excel Ultimos Productos.xlsx')
     const sheets = file.SheetNames;
     let data = [];
     let linea = [];
+    let json = [];
 
     for(let i = 0; i < sheets.length; i++){
         const item = reader.utils.sheet_to_json(file.Sheets[file.SheetNames[i]])
@@ -104,12 +100,12 @@ function createExcel() {
         })
 
         data.map((res) => {
-            if(!(linea.some((row) => row === res['TIPO DE PRODUCTO']))) linea.push(res['TIPO DE PRODUCTO']);
+            if(!(linea.some((row) => row === res.REFERENCIA))) linea.push(res.REFERENCIA);
         })
     }
 
-    console.log(formatterDataJson(data));
-
+    json = formatterDataJson(data);
+    createJsonFile( JSON.stringify(json), 'newObjectWithAll')
 }
 
 function formatterDataJson(Json){
@@ -177,38 +173,260 @@ function formatterDataJson(Json){
         }
 
         switch(RF) {
-            case 'SHAFT':
-                RF = '002';
+            case 211:
+                RF = '0008';
                 break;
-            case 'TOMCAT':
-                RF = '048';
+            case '307_KP':
+                RF = '0171';
                 break;
-            case 'TECH':
-                RF = '021';
+            case '501_SP':
+                RF = '0002';
                 break;
-            case 'AGV':
-                RF = '012';
+            case '30_LT':
+                RF = '0172';
                 break;
-            case 'PINLOCK':
-                RF = '049';
+            case '3110_DOT':
+                RF = '0001';
                 break;
-            case 'BULLET':
-                RF = '020';
+            case 'SH-211':
+                RF = '0008';
                 break;
-            case 'ICH':
-                RF = '001';
+            case 'HRO-3400DV':
+                RF = '0046';
                 break;
-            case 'HRO':
-                RF = '007';
+            case '560_XLITE':
+                RF = '0175';
                 break;
-            case 'LS2':
-                RF = '004';
+            case 170:
+                RF = '0176';
                 break;
-            case 'SHAFT_PRO':
-                RF = '005';
+
+            case 'NITRO':
+                RF = '0023';
                 break;
-            case 'X_ONE':
-                RF = '015';
+            case 'SH-571':
+                RF = '0019';
+                break;
+            case '320_STREAM_PINLOCK':
+                RF = '0031';
+                break;
+            case 'K-1_MONO':
+                RF = '0117';
+                break;
+            case 'K-3_SV_TOP':
+                RF = '0129';
+                break;
+            case 516:
+                RF = '0045';
+                break;
+            case 'SHPRO-610DV':
+                RF = '0038';
+                break;
+            case 'SH-227TRIAL':
+                RF = '0009';
+                break;
+            case '503_SP/3120_DV':
+                RF = '0003';
+                break;
+            case 101:
+                RF = '0005';
+                break;
+            case 'SH-551':
+                RF = '0017';
+                break;
+            case 'LS2-FF322/FF351/FF352/FF358/FF384/FF396 ':
+                RF = '0032';
+                break;
+            case '545_HUNTER':
+                RF = '0178';
+                break;
+            case 'SH-502':
+                RF = '0011';
+                break;
+            case 'SH-582SP':
+                RF = '0022';
+                break;
+            case 'HRO-511':
+                RF = '0049';
+                break;
+            case '3110_S_DC':
+                RF = '0179';
+                break;
+            case 'SH-410_X-LITE':
+                RF = '0010';
+                break;
+            case 'X-316RW':
+                RF = '0133';
+                break;
+            case 'SH-3700DVPEAK':
+                RF = '0180';
+                break;
+            case 'SH-581EVO':
+                RF = '0021';
+                break;
+            case 'X-3000GT':
+                RF = '0135';
+                break;
+            case 520:
+                RF = '0012';
+                break;
+            case 'HRO-MX03':
+                RF = '0181';
+                break;
+            case 'SHPRO-MX370DV':
+                RF = '0182';
+                break;
+            case 'SH-560':
+                RF = '0018';
+                break;
+            case 'SH-542GT':
+                RF = '0015';
+                break;
+            case 'AGV-K-1_TOP/K5/K3_SV                    ':
+                RF = '0115';
+                break;
+            case 'HRO-MX330DV':
+                RF = '0183';
+                break;
+            case 'SHPRO-4000DV':
+                RF = '0039';
+                break;
+            case '33_LT/48_LT':
+                RF = '0173';
+                break;
+            case 'SHPRO-600DV':
+                RF = '0037';
+                break;
+            case 'SH-526SP':
+                RF = '0014';
+                break;
+            case 'SH-230':
+                RF = '0184';
+                break;
+            case 'SHPRO-620CARBON':
+                RF = '0185';
+                break;
+            case 'HRO-508DOT':
+                RF = '0048';
+                break;
+            case '34_LT':
+                RF = '0186';
+                break;
+            case '40_LT':
+                RF = '0174';
+                break;
+            case 310:
+                RF = '0188';
+                break;
+            case 'SHAFT-                                  ':
+                RF = '0187';
+                break;
+            case 'SHAFT-545                               ':
+                RF = '0189';
+                break;
+            case '503_SP':
+                RF = '0003';
+                break;
+            case 'K-3_SV_MONO':
+                RF = '0115';
+                break;
+            case '3120_DV':
+                RF = '0004';
+                break;
+            case '3110_S':
+                RF = '0179';
+                break;
+            case '50_LT':
+                RF = '0190';
+                break;
+            case 'LS2-FF320/FF353                         ':
+                RF = '0031';
+                break;
+            case '600_RW':
+                RF = '0145';
+                break;
+            case '62_XTREME':
+                RF = '0191';
+                break;
+            case '50_RW':
+                RF = '0192';
+                break;
+            case 'SHPRO-235DV':
+                RF = '0036';
+                break;
+            case 'SHPRO-4100DV':
+                RF = '0193';
+                break;
+            case 'SH-562':
+                RF = '0034';
+                break;
+            case 'K-1_TOP':
+                switch(row.GRAFICOS) {
+                    case 'SOLELUNA_2015_(002)':
+                        RF = '0122';
+                        break;
+                    case 'ROSSI_MUGELLO_2016_(007)':
+                        RF = '0114';
+                        break;
+                    case 'SOLELUNA_2017_(009)':
+                        RF = '0123';
+                        break;
+                    case 'DREAMTIME_(005)':
+                        RF = '0116';
+                        break;
+                    case 'ELEMENTS_(018)                          ':
+                        RF = '0121';
+                        break;
+                }
+                
+                break;
+            case 'SH-MX33RAPTOR':
+                RF = '0194';
+                break;
+            case 'HRO-3480DV':
+                RF = '0047';
+                break;
+            case 'SH-522':
+                RF = '0013';
+                break;
+            case '3110_DC':
+                RF = '0001';
+                break;
+            case '35RW                                    ':
+                RF = '0195';
+                break;
+            case '31V                                     ':
+                RF = '0006';
+                break;
+            case 'HRO-518DV':
+                RF = '0050';
+                break;
+            case 'SH-580DV':
+                RF = '0020';
+                break;
+            case 'SHPRO-612DV                             ':
+                RF = '0196';
+                break;
+            case 'SH-3910DV                               ':
+                RF = '0197';
+                break;
+            case 'X-500GT':
+                RF = '0134';
+                break;
+            case 353:
+                RF = '0033';
+                break;
+            case 352:
+                RF = '0032';
+                break;
+            case 'K-1_REPLICA':
+                RF = '0120';
+                break;
+            case 'T10':
+                RF = '0198';
+                break;
+            case 313:
+                RF = '0007';
                 break;
         }
 
@@ -345,7 +563,7 @@ function formatterDataJson(Json){
             {
                 'REFERENCIA PPAL': row.Item,
                 'CODIGO PLAN': 'RF',
-                'CODIGO MAYOR': row.REFERENCIA
+                'CODIGO MAYOR': RF
             },
             {
                 'REFERENCIA PPAL': row.Item,
@@ -368,6 +586,15 @@ function formatterDataJson(Json){
 
     return formatterJson;
 
+}
+
+function createJsonFile(json, name) {
+    fs.writeFile("C:/Users/POWER_BIKER_DELL/Downloads/" + name, json, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
 }
 
 createExcel()
